@@ -1,0 +1,26 @@
+version: "3"
+services:
+  frontend:
+    container_name: next-frontend
+    image: next-frontend
+    build:
+      context: ./next-app
+      dockerfile: dev.Dockerfile
+    env_file:
+      - .env
+    environment:
+      ENV_VARIABLE: ${ENV_VARIABLE}
+      NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+      PORT: 3000
+    restart: always
+    volumes:
+      - ./next-app:/app # Bind mount your local next-app directory to /app in the container
+    networks:
+      - app
+    ports:
+      - 3000:3000
+
+networks:
+  app:
+    name: App
+    driver: bridge
